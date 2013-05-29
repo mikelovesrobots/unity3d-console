@@ -1,10 +1,14 @@
-Console
+In-game Console
 =======
 
 Synopsis
 --------
 
 Quake-style console plugin for Unity3d.  Toggle the console by pressing tilde (~).
+
+Screenshot
+-----------
+* https://dl.dropboxusercontent.com/u/664907/Screenshots/o2i4.png
 
 Installation
 ------------
@@ -58,6 +62,9 @@ Note from the author
 Contact me if you've got any questions, bugs or contract work to throw my way.
 
 Cheers,
+
 Mike
+
 mikelovesrobots@gmail.com
+
 @mikelovesrobots on Twitter
