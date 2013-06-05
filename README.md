@@ -13,8 +13,10 @@ Screenshot
 Installation
 ------------
 
-Copy the Console directory to your Assets/Plugins folder.  
-Make the plugins folder if it doesn't exist.
+1. Copy the Console directory to your Assets/Plugins folder.  (Make the plugins folder if it doesn't exist.)
+2. Drag the console prefab into your scene.
+3. Run your scene and press ~ to launch the console.
+4. Now register some custom commands
 
 Registering custom commands
 ---------------
@@ -44,7 +46,8 @@ public class ConsoleCommandRouter : MonoBehaviour {
 ```
 
 The string returned from the console command will be written to the in-game 
-console log.
+console log.  Insert newlines in your response to have multiple lines be written
+to the log.
 
 Logging
 -------
