@@ -8,7 +8,7 @@ Quake-style console plugin for Unity3d.  Toggle the console by pressing tilde (~
 
 Screenshot
 -----------
-![Screenshot](https://www.dropbox.com/s/1bpz34yrkjq7o2g/Screenshot%202014-01-03%2000.13.07.png)
+![Screenshot](https://dl.dropboxusercontent.com/s/z0gw0h267h0fzz4/Screen%20Shot%202014-01-06%20at%2011.26.19%20AM.png)
 
 Installation
 ------------
