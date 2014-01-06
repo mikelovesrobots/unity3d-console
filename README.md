@@ -8,7 +8,7 @@ Quake-style console plugin for Unity3d.  Toggle the console by pressing tilde (~
 
 Screenshot
 -----------
-* https://dl.dropboxusercontent.com/u/664907/Screenshots/o2i4.png
+![Screenshot](https://www.dropbox.com/s/1bpz34yrkjq7o2g/Screenshot%202014-01-03%2000.13.07.png)
 
 Installation
 ------------
@@ -62,7 +62,7 @@ Logs to the in-game console.
 Note from the author
 --------------------
 
-Contact me if you've got any questions, bugs or contract work to throw my way.
+Feel free to contribute your changes back!  I love pull requests.
 
 Cheers,
 
