@@ -10,6 +10,7 @@ public class ConsoleGUI : MonoBehaviour {
     private Rect consoleRect;
     private bool focus = false;
     private const int WINDOW_ID = 50;
+    private int scrollPosition;
 
     private void Start() {
         consoleRect = new Rect(0, 0, Screen.width, Mathf.Min(300, Screen.height));
@@ -32,7 +33,7 @@ public class ConsoleGUI : MonoBehaviour {
         HandleSubmit();
         HandleEscape();
 
-        GUILayout.BeginScrollView(Vector2.zero);
+        GUILayout.BeginScrollView(new Vector2(0, scrollPosition), false, true);
         GUILayout.Label(consoleLog.log);
         GUILayout.EndScrollView();
         GUI.SetNextControlName("input");
