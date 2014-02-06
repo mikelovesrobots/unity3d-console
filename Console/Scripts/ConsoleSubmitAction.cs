@@ -25,8 +25,8 @@ public class ConsoleSubmitAction : ConsoleAction {
 		if(console.inPromptMode)
 		{
 			promptInput.Interpret(ref response);
-			console.onConsoleSubmit(response);
 			console.inPromptMode = false;
+			console.onConsoleSubmit(response);
 		}
 		else
 		{
