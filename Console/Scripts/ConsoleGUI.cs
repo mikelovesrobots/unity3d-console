@@ -6,23 +6,27 @@ public class ConsoleGUI : MonoBehaviour {
     public ConsoleAction escapeAction;
     public ConsoleAction submitAction;
     [HideInInspector]
-        public string input = "";
+    public string input = "";
     private ConsoleLog consoleLog;
     private Rect consoleRect;
     private bool focus = false;
     private const int WINDOW_ID = 50;
-	private ConsoleCommandsRepository consoleCommandsRepository;
 
-	private int maxConsoleHistorySize = 100;
-	private int consoleHistoryPosition = 0;
-	private List<string> consoleHistoryCommands = new List<string>();
-	private bool fixPositionNextFrame = false; // a hack because the up arrow moves the cursor to the first position.
+    private ConsoleCommandsRepository consoleCommandsRepository;
+
+    private int maxConsoleHistorySize = 100;
+    private int consoleHistoryPosition = 0;
+    private List<string> consoleHistoryCommands = new List<string>();
+    private bool fixPositionNextFrame = false; // a hack because the up arrow moves the cursor to the first position.
+
+    private int scrollPosition;
+
 
     private void Start() {
         consoleRect = new Rect(0, 0, Screen.width, Mathf.Min(300, Screen.height));
         consoleLog = ConsoleLog.Instance;
-		consoleCommandsRepository = ConsoleCommandsRepository.Instance;
-	}
+		  consoleCommandsRepository = ConsoleCommandsRepository.Instance;
+	 }
 
     private void OnEnable() {
         focus = true;
@@ -37,7 +41,7 @@ public class ConsoleGUI : MonoBehaviour {
     }
 
     private void RenderWindow(int id) {
-		if (fixPositionNextFrame) 
+		if (fixPositionNextFrame)
 		{
 			MoveCursorToPos (input.Length);
 			fixPositionNextFrame = false;
@@ -48,7 +52,7 @@ public class ConsoleGUI : MonoBehaviour {
 		HandleUp ();
 		HandleDown ();
 
-        GUILayout.BeginScrollView(Vector2.zero);
+        GUILayout.BeginScrollView(new Vector2(0, scrollPosition), false, true);
         GUILayout.Label(consoleLog.log);
         GUILayout.EndScrollView();
         GUI.SetNextControlName("input");
@@ -78,7 +82,7 @@ public class ConsoleGUI : MonoBehaviour {
 		return;
 	}
 
-	private void HandleTab() 
+	private void HandleTab()
 	{
 		if (KeyDown ("tab")) {
 			if (input != "") { // don't do anything if the input field is still blank.
@@ -111,7 +115,7 @@ public class ConsoleGUI : MonoBehaviour {
 			consoleHistoryPosition += 1;
 			if (consoleHistoryPosition > consoleHistoryCommands.Count - 1) consoleHistoryPosition = consoleHistoryCommands.Count - 1;
 			input = consoleHistoryCommands[consoleHistoryPosition];
-			fixPositionNextFrame = true; 
+			fixPositionNextFrame = true;
 			//MoveCursorToPos(input.Length);
 		}
 	}
