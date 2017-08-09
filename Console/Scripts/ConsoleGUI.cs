@@ -77,8 +77,14 @@ public class ConsoleGUI : MonoBehaviour {
 	private void MoveCursorToPos(int position)
 	{
 		TextEditor editor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
+#if UNITY_5_2 || UNITY_5_3 || UNITY_5_3_OR_NEWER
+		editor.selectIndex = position;
+		editor.cursorIndex = position;
+#else
+		
 		editor.selectPos = position;
 		editor.pos = position;
+#endif
 		return;
 	}
 
