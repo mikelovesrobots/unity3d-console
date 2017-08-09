@@ -19,7 +19,7 @@ public class ConsoleGUI : MonoBehaviour {
     private List<string> consoleHistoryCommands = new List<string>();
     private bool fixPositionNextFrame = false; // a hack because the up arrow moves the cursor to the first position.
 
-    private int scrollPosition;
+    private float scrollPosition;
 
 
     private void Start() {
@@ -39,7 +39,6 @@ public class ConsoleGUI : MonoBehaviour {
     public void OnGUI() {
         GUILayout.Window(WINDOW_ID, consoleRect, RenderWindow, "Console");
     }
-
     private void RenderWindow(int id) {
 		if (fixPositionNextFrame)
 		{
@@ -51,9 +50,13 @@ public class ConsoleGUI : MonoBehaviour {
 		HandleTab();
 		HandleUp ();
 		HandleDown ();
-
-        GUILayout.BeginScrollView(new Vector2(0, scrollPosition), false, true);
-        GUILayout.Label(consoleLog.log);
+        scrollPosition = GUILayout.BeginScrollView(new Vector2(0, scrollPosition), false, true).y;
+		if (consoleLog.fresh)
+		{
+			scrollPosition = consoleLog.scrollLength;
+			consoleLog.fresh = false;
+		}
+		GUILayout.Label(consoleLog.log);
         GUILayout.EndScrollView();
         GUI.SetNextControlName("input");
         input = GUILayout.TextField(input);
@@ -62,6 +65,7 @@ public class ConsoleGUI : MonoBehaviour {
             focus = false;
         }
     }
+	
 
 	private string LargestSubString(string in1, string in2) // takes two strings and returns the largest matching substring.
 	{
@@ -149,7 +153,7 @@ public class ConsoleGUI : MonoBehaviour {
 				if (consoleHistoryCommands.Count > maxConsoleHistorySize)
 					consoleHistoryCommands.RemoveAt(consoleHistoryCommands.Count-1);
             }
-            input = "";
+			input = "";
         }
     }
 
