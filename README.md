@@ -25,7 +25,7 @@ using UnityEngine;
 using System.Collections;
 
 public class ConsoleCommandRouter : MonoBehaviour {
-    void Start () {
+    void Start() {
         var repo = ConsoleCommandsRepository.Instance;
         repo.RegisterCommand("save", Save);
         repo.RegisterCommand("load", Load);

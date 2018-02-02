@@ -42,7 +42,7 @@ public class ConsoleGUI : MonoBehaviour {
     private void RenderWindow(int id) {
         if (fixPositionNextFrame)
         {
-            MoveCursorToPos (input.Length);
+            MoveCursorToPos(input.Length);
             fixPositionNextFrame = false;
         }
         HandleSubmit();
@@ -97,19 +97,19 @@ public class ConsoleGUI : MonoBehaviour {
             return;
 
         if (input != "") { // don't do anything if the input field is still blank.
-            List<string> search = consoleCommandsRepository.SearchCommands (input);
+            List<string> search = consoleCommandsRepository.SearchCommands(input);
             if (search.Count == 0) { // nothing found
-                consoleLog.Log ("No command start with \"" + input + "\".");
+                consoleLog.Log("No commands start with \"" + input + "\".");
                 input = ""; // clear input
             } else if (search.Count == 1) {
                 input = search[0] + " "; // only found one command - type it in for the guy
                 MoveCursorToPos(input.Length);
             } else {
-                consoleLog.Log ("Commands starting with \"" + input + "\":");
+                consoleLog.Log("Commands starting with \"" + input + "\":");
                 string largestMatch = search[0]; // keep track of the largest substring that matches all searches
                 foreach (string command in search)
                 {
-                    consoleLog.Log (command);
+                    consoleLog.Log(command);
                     largestMatch = LargestSubString(largestMatch, command);
                 }
                 input = largestMatch;
