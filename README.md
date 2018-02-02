@@ -27,19 +27,32 @@ using System.Collections;
 public class ConsoleCommandRouter : MonoBehaviour {
     void Start() {
         var repo = ConsoleCommandsRepository.Instance;
+        repo.RegisterCommand("hi", Hi);
         repo.RegisterCommand("save", Save);
         repo.RegisterCommand("load", Load);
     }
 
+    public string Hi(params string[] args) {
+        return "Hey there yourself!";
+    }
+
     public string Save(params string[] args) {
         var filename = args[0];
-        new LevelSaver().Save(filename);
+
+        //
+        // [insert code here saving the game to that filename]
+        //
+
         return "Saved to " + filename;
     }
 
     public string Load(params string[] args) {
         var filename = args[0];
-        new LevelLoader().Load(filename);
+
+        //
+        // [insert code here loading the game from that filename]
+        //
+
         return "Loaded " + filename;
     }
 }
