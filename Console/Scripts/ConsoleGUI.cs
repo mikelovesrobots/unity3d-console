@@ -85,7 +85,6 @@ public class ConsoleGUI : MonoBehaviour {
         editor.selectIndex = position;
         editor.cursorIndex = position;
 #else
-
         editor.selectPos = position;
         editor.pos = position;
 #endif
