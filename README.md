@@ -4,7 +4,7 @@ In-game Console
 Synopsis
 --------
 
-Quake-style console plugin for Unity3d.  Toggle the console by pressing tilde (~).
+Quake-style console plugin for Unity3d.  Toggle the console by pressing tilde (~). Press tab to autocomplete commands.
 
 Screenshot
 -----------
@@ -45,7 +45,7 @@ public class ConsoleCommandRouter : MonoBehaviour {
 }
 ```
 
-The string returned from the console command will be written to the in-game 
+The string returned from the console command will be displayed to the in-game 
 console log.  Insert newlines in your response to have multiple lines be written
 to the log.
 
