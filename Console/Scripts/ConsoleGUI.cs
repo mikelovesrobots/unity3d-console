@@ -10,9 +10,10 @@ public class ConsoleGUI : MonoBehaviour {
     private Rect consoleRect;
     private bool focus = false;
     private const int WINDOW_ID = 50;
+    private const int MIN_CONSOLE_HEIGHT = 300;
 
     private void Start() {
-        consoleRect = new Rect(0, 0, Screen.width, Mathf.Min(300, Screen.height));
+        consoleRect = new Rect(0, 0, Screen.width, Mathf.Min(MIN_CONSOLE_HEIGHT, Screen.height));
         consoleLog = ConsoleLog.Instance;
     }
 
