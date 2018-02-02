@@ -94,54 +94,55 @@ public class ConsoleGUI : MonoBehaviour {
 
     private void HandleTab()
     {
-        if (KeyDown ("tab")) {
-            if (input != "") { // don't do anything if the input field is still blank.
-                List<string> search = consoleCommandsRepository.SearchCommands (input);
-                if (search.Count == 0) { // nothing found
-                    consoleLog.Log ("No command start with \"" + input + "\".");
-                    input = ""; // clear input
-                    return;
-                } else if (search.Count == 1) {
-                    input = search[0] + " "; // only found one command - type it in for the guy
-                    MoveCursorToPos(input.Length);
-                } else {
-                    consoleLog.Log ("Commands starting with \"" + input + "\":");
-                    string largestMatch = search[0]; // keep track of the largest substring that matches all searches
-                    foreach (string command in search)
-                    {
-                        consoleLog.Log (command);
-                        largestMatch = LargestSubString(largestMatch, command);
-                    }
-                    input = largestMatch;
-                    MoveCursorToPos(input.Length);
+        if (!KeyDown("tab")) 
+            return;
+
+        if (input != "") { // don't do anything if the input field is still blank.
+            List<string> search = consoleCommandsRepository.SearchCommands (input);
+            if (search.Count == 0) { // nothing found
+                consoleLog.Log ("No command start with \"" + input + "\".");
+                input = ""; // clear input
+            } else if (search.Count == 1) {
+                input = search[0] + " "; // only found one command - type it in for the guy
+                MoveCursorToPos(input.Length);
+            } else {
+                consoleLog.Log ("Commands starting with \"" + input + "\":");
+                string largestMatch = search[0]; // keep track of the largest substring that matches all searches
+                foreach (string command in search)
+                {
+                    consoleLog.Log (command);
+                    largestMatch = LargestSubString(largestMatch, command);
                 }
+                input = largestMatch;
+                MoveCursorToPos(input.Length);
             }
         }
     }
 
     private void HandleUp()
     {
-        if (KeyDown ("up")) {
-            consoleHistoryPosition += 1;
-            if (consoleHistoryPosition > consoleHistoryCommands.Count - 1) consoleHistoryPosition = consoleHistoryCommands.Count - 1;
-            input = consoleHistoryCommands[consoleHistoryPosition];
-            fixPositionNextFrame = true;
-            //MoveCursorToPos(input.Length);
-        }
+        if (!KeyDown("up"))
+            return;
+
+        consoleHistoryPosition += 1;
+        if (consoleHistoryPosition > consoleHistoryCommands.Count - 1) consoleHistoryPosition = consoleHistoryCommands.Count - 1;
+        input = consoleHistoryCommands[consoleHistoryPosition];
+        fixPositionNextFrame = true;
     }
 
     private void HandleDown()
     {
-        if (KeyDown ("down")) {
-            consoleHistoryPosition -= 1;
-            if (consoleHistoryPosition < 0) {
-                consoleHistoryPosition = -1;
-                input = "";
-            }
-            else
-                input = consoleHistoryCommands[consoleHistoryPosition];
-            MoveCursorToPos(input.Length);
+        if (!KeyDown("down"))
+            return;
+
+        consoleHistoryPosition -= 1;
+        if (consoleHistoryPosition < 0) {
+            consoleHistoryPosition = -1;
+            input = "";
+        } else {
+            input = consoleHistoryCommands[consoleHistoryPosition];
         }
+        MoveCursorToPos(input.Length);
     }
 
     private void HandleSubmit() {
