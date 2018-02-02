@@ -4,7 +4,7 @@ In-game Console
 Synopsis
 --------
 
-Quake-style console plugin for Unity3d.  Toggle the console by pressing tilde (~).
+Quake-style console plugin for Unity3d.  Toggle the console by pressing tilde (~). Press tab to autocomplete commands.
 
 Screenshot
 -----------
@@ -25,27 +25,40 @@ using UnityEngine;
 using System.Collections;
 
 public class ConsoleCommandRouter : MonoBehaviour {
-    void Start () {
+    void Start() {
         var repo = ConsoleCommandsRepository.Instance;
+        repo.RegisterCommand("hi", Hi);
         repo.RegisterCommand("save", Save);
         repo.RegisterCommand("load", Load);
     }
 
+    public string Hi(params string[] args) {
+        return "Hey there yourself!";
+    }
+
     public string Save(params string[] args) {
         var filename = args[0];
-        new LevelSaver().Save(filename);
+
+        //
+        // [insert code here saving the game to that filename]
+        //
+
         return "Saved to " + filename;
     }
 
     public string Load(params string[] args) {
         var filename = args[0];
-        new LevelLoader().Load(filename);
+
+        //
+        // [insert code here loading the game from that filename]
+        //
+
         return "Loaded " + filename;
     }
 }
 ```
 
-The string returned from the console command will be written to the in-game 
+The string returned from the console command will be displayed to the in-game 
 console log.  Insert newlines in your response to have multiple lines be written
 to the log.
 

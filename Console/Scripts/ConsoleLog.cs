@@ -13,8 +13,12 @@ public class ConsoleLog {
     }
 
     public string log = "";
+    public int scrollLength;
+    public bool fresh = false;
 
     public void Log(string message) {
         log += message + "\n";
+        fresh = true;
+        scrollLength += ((message+"\n").Split('\n').Length)*20;
     }
 }
