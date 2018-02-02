@@ -62,6 +62,26 @@ The string returned from the console command will be displayed to the in-game
 console log.  Insert newlines in your response to have multiple lines be written
 to the log.
 
+Prompting the user for input and using the response
+----------------------------------------------------
+If you want to prompt the user for input, say "Enter Password: " and do something with the response,
+use: 
+```
+Console.Instance.Prompt(string prompt, void callback(string response));
+```
+
+For example:
+```
+void Start() {
+    Console.Instance.Prompt("Enter Password: ", Print);
+}
+
+void Print(string response) {
+    // Do stuff with response
+    Debug.Log(response);
+}
+```
+
 Logging
 -------
 

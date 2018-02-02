@@ -4,25 +4,34 @@ using System.Linq;
 using System.Collections;
 
 public class ConsoleSubmitAction : ConsoleAction {
-  public ConsoleGUI consoleGUI;
-  private ConsoleCommandsRepository consoleCommandsRepository;
-  private ConsoleLog consoleLog;
+
+	private Console console;
+  	private ConsoleCommandsRepository consoleCommandsRepository;
+  	private ConsoleLog consoleLog;
+
+  	public ConsoleGUI consoleGUI;
+	public ConsoleInput commandInput;
+	public ConsoleInput promptInput;
 
   private void Start() {
-    consoleCommandsRepository = ConsoleCommandsRepository.Instance;
-    consoleLog = ConsoleLog.Instance;
+		console = Console.Instance;
+    	consoleCommandsRepository = ConsoleCommandsRepository.Instance;
+    	consoleLog = ConsoleLog.Instance;
   }
 
   public override void Activate() {
-    string[] parts = consoleGUI.input.Split(' ');
-    string command = parts[0];
-    string[] args = parts.Skip(1).ToArray();
+		string response = "";
 
-    consoleLog.Log("> " + consoleGUI.input);
-    if (consoleCommandsRepository.HasCommand(command)) {
-      consoleLog.Log(consoleCommandsRepository.ExecuteCommand(command, args));
-    } else {
-      consoleLog.Log("Command " + command + " not found");
-    }
+		if(console.inPromptMode)
+		{
+			promptInput.Interpret(ref response);
+			console.inPromptMode = false;
+			console.onConsoleSubmit(response);
+		}
+		else
+		{
+			commandInput.Interpret(ref response);
+		}
+
   }
 }
