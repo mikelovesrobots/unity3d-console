@@ -25,8 +25,8 @@ public class ConsoleGUI : MonoBehaviour {
     private void Start() {
         consoleRect = new Rect(0, 0, Screen.width, Mathf.Min(300, Screen.height));
         consoleLog = ConsoleLog.Instance;
-		  consoleCommandsRepository = ConsoleCommandsRepository.Instance;
-	 }
+        consoleCommandsRepository = ConsoleCommandsRepository.Instance;
+    }
 
     private void OnEnable() {
         focus = true;
@@ -40,23 +40,23 @@ public class ConsoleGUI : MonoBehaviour {
         GUILayout.Window(WINDOW_ID, consoleRect, RenderWindow, "Console");
     }
     private void RenderWindow(int id) {
-		if (fixPositionNextFrame)
-		{
-			MoveCursorToPos (input.Length);
-			fixPositionNextFrame = false;
-		}
+        if (fixPositionNextFrame)
+        {
+            MoveCursorToPos (input.Length);
+            fixPositionNextFrame = false;
+        }
         HandleSubmit();
         HandleEscape();
-		HandleTab();
-		HandleUp ();
-		HandleDown ();
+        HandleTab();
+        HandleUp();
+        HandleDown();
         scrollPosition = GUILayout.BeginScrollView(new Vector2(0, scrollPosition), false, true).y;
-		if (consoleLog.fresh)
-		{
-			scrollPosition = consoleLog.scrollLength;
-			consoleLog.fresh = false;
-		}
-		GUILayout.Label(consoleLog.log);
+        if (consoleLog.fresh)
+        {
+            scrollPosition = consoleLog.scrollLength;
+            consoleLog.fresh = false;
+        }
+        GUILayout.Label(consoleLog.log);
         GUILayout.EndScrollView();
         GUI.SetNextControlName("input");
         input = GUILayout.TextField(input);
@@ -65,95 +65,95 @@ public class ConsoleGUI : MonoBehaviour {
             focus = false;
         }
     }
-	
 
-	private string LargestSubString(string in1, string in2) // takes two strings and returns the largest matching substring.
-	{
-		string output = "";
-		int smallestLen = Mathf.Min(in1.Length, in2.Length);
-		for (int i = 0; i<smallestLen; i++) {
-			if (in1[i] == in2[i]) output += in1[i];
-			else return output;
-			}
-		return output;
-	}
 
-	private void MoveCursorToPos(int position)
-	{
-		TextEditor editor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
+    private string LargestSubString(string in1, string in2) // takes two strings and returns the largest matching substring.
+    {
+        string output = "";
+        int smallestLen = Mathf.Min(in1.Length, in2.Length);
+        for (int i = 0; i<smallestLen; i++) {
+            if (in1[i] == in2[i]) output += in1[i];
+            else return output;
+        }
+        return output;
+    }
+
+    private void MoveCursorToPos(int position)
+    {
+        TextEditor editor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
 #if UNITY_5_2 || UNITY_5_3 || UNITY_5_3_OR_NEWER
-		editor.selectIndex = position;
-		editor.cursorIndex = position;
+        editor.selectIndex = position;
+        editor.cursorIndex = position;
 #else
-		
-		editor.selectPos = position;
-		editor.pos = position;
+
+        editor.selectPos = position;
+        editor.pos = position;
 #endif
-		return;
-	}
+        return;
+    }
 
-	private void HandleTab()
-	{
-		if (KeyDown ("tab")) {
-			if (input != "") { // don't do anything if the input field is still blank.
-				List<string> search = consoleCommandsRepository.SearchCommands (input);
-				if (search.Count == 0) { // nothing found
-					consoleLog.Log ("No command start with \"" + input + "\".");
-					input = ""; // clear input
-					return;
-				} else if (search.Count == 1) {
-					input = search[0] + " "; // only found one command - type it in for the guy
-					MoveCursorToPos(input.Length);
-				} else {
-					consoleLog.Log ("Commands starting with \"" + input + "\":");
-					string largestMatch = search[0]; // keep track of the largest substring that matches all searches
-					foreach (string command in search)
-					{
-						consoleLog.Log (command);
-						largestMatch = LargestSubString(largestMatch, command);
-					}
-					input = largestMatch;
-					MoveCursorToPos(input.Length);
-				}
-			}
-		}
-	}
+    private void HandleTab()
+    {
+        if (KeyDown ("tab")) {
+            if (input != "") { // don't do anything if the input field is still blank.
+                List<string> search = consoleCommandsRepository.SearchCommands (input);
+                if (search.Count == 0) { // nothing found
+                    consoleLog.Log ("No command start with \"" + input + "\".");
+                    input = ""; // clear input
+                    return;
+                } else if (search.Count == 1) {
+                    input = search[0] + " "; // only found one command - type it in for the guy
+                    MoveCursorToPos(input.Length);
+                } else {
+                    consoleLog.Log ("Commands starting with \"" + input + "\":");
+                    string largestMatch = search[0]; // keep track of the largest substring that matches all searches
+                    foreach (string command in search)
+                    {
+                        consoleLog.Log (command);
+                        largestMatch = LargestSubString(largestMatch, command);
+                    }
+                    input = largestMatch;
+                    MoveCursorToPos(input.Length);
+                }
+            }
+        }
+    }
 
-	private void HandleUp()
-	{
-		if (KeyDown ("up")) {
-			consoleHistoryPosition += 1;
-			if (consoleHistoryPosition > consoleHistoryCommands.Count - 1) consoleHistoryPosition = consoleHistoryCommands.Count - 1;
-			input = consoleHistoryCommands[consoleHistoryPosition];
-			fixPositionNextFrame = true;
-			//MoveCursorToPos(input.Length);
-		}
-	}
+    private void HandleUp()
+    {
+        if (KeyDown ("up")) {
+            consoleHistoryPosition += 1;
+            if (consoleHistoryPosition > consoleHistoryCommands.Count - 1) consoleHistoryPosition = consoleHistoryCommands.Count - 1;
+            input = consoleHistoryCommands[consoleHistoryPosition];
+            fixPositionNextFrame = true;
+            //MoveCursorToPos(input.Length);
+        }
+    }
 
-	private void HandleDown()
-	{
-		if (KeyDown ("down")) {
-			consoleHistoryPosition -= 1;
-			if (consoleHistoryPosition < 0) {
-				consoleHistoryPosition = -1;
-				input = "";
-			}
-			else
-				input = consoleHistoryCommands[consoleHistoryPosition];
-			MoveCursorToPos(input.Length);
-		}
-	}
+    private void HandleDown()
+    {
+        if (KeyDown ("down")) {
+            consoleHistoryPosition -= 1;
+            if (consoleHistoryPosition < 0) {
+                consoleHistoryPosition = -1;
+                input = "";
+            }
+            else
+                input = consoleHistoryCommands[consoleHistoryPosition];
+            MoveCursorToPos(input.Length);
+        }
+    }
 
     private void HandleSubmit() {
         if (KeyDown("[enter]") || KeyDown("return")) {
-			consoleHistoryPosition = -1; // up arrow or down arrow will set it to 0, which is the last command typed.
-			if (submitAction != null) {
+            consoleHistoryPosition = -1; // up arrow or down arrow will set it to 0, which is the last command typed.
+            if (submitAction != null) {
                 submitAction.Activate();
-				consoleHistoryCommands.Insert(0, input);
-				if (consoleHistoryCommands.Count > maxConsoleHistorySize)
-					consoleHistoryCommands.RemoveAt(consoleHistoryCommands.Count-1);
+                consoleHistoryCommands.Insert(0, input);
+                if (consoleHistoryCommands.Count > maxConsoleHistorySize)
+                    consoleHistoryCommands.RemoveAt(consoleHistoryCommands.Count-1);
             }
-			input = "";
+            input = "";
         }
     }
 
@@ -164,10 +164,10 @@ public class ConsoleGUI : MonoBehaviour {
         }
     }
 
-	private void Update() {
-		if (input == "`")
-			input = "";
-	}
+    private void Update() {
+        if (input == "`")
+            input = "";
+    }
 
     private bool KeyDown(string key) {
         return Event.current.Equals(Event.KeyboardEvent(key));
